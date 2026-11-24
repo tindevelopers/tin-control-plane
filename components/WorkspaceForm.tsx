@@ -25,7 +25,7 @@ export default function WorkspaceForm({ settings, action, canEdit, hidden = {}, 
       <fieldset disabled={!canEdit} className="space-y-6">
         <div className="grid gap-4 sm:grid-cols-3">
           <label className="text-sm">Display name
-            <input name="brandName" defaultValue={settings.brand.name ?? ""} maxLength={40} autoComplete="off" placeholder="TIN Control" className={`${inputCls} mt-1 w-full`} />
+            <input name="brandName" defaultValue={settings.brand.name ?? ""} maxLength={40} autoComplete="off" placeholder="TIN Control Plane" className={`${inputCls} mt-1 w-full`} />
             <span className={`${hint} block`}>Shown in the sidebar and header. At most 40 characters; blank uses the default.</span>
           </label>
           <label className="text-sm">Accent colour
