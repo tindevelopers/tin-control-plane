@@ -67,7 +67,7 @@ export const POLICIES: readonly PolicyRecord[] = [
     id: "scopes", title: "BOSS scopes and who may hold them", kind: "decision-record",
     governs: "Which spoke scopes a platform key, the console's reader key, an operator key and the tin hub may carry, and that they are never mixed.",
     recordedIn: "tin-boss-api scripts/mint-spoke-credential.ts; mirrored in the console as config/scopes.ts with the Consumers and keys page",
-    approvedBy: "owner", changedBy: "a PR to tin-boss-api", overridableBy: "nothing: minting is the owner's CLI", page: "/boss/keys",
+    approvedBy: "owner", changedBy: "a PR to tin-boss-api", overridableBy: "nothing: platform keys and the console's reports-read key can be minted from the Keys page; console operator keys and tin keys stay the owner's CLI", page: "/boss/keys",
     values: () => [
       { label: "platform keys", value: "any non-empty subset of boss.reports.write, boss.pins.read, boss.knowledge.releases.read" },
       { label: "console reader", value: "exactly boss.reports.read" },
