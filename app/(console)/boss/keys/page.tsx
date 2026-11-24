@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { requireOperator } from "@/src/auth/access";
 import { operatorBearer } from "@/src/auth/token";
-import { canRevoke, describeCredentialsFailure, isPlatformEnvironment, isPlatformName, listCredentials, otherActive, PLATFORM_ENVIRONMENTS, STATUS_COLOUR } from "@/src/boss/credentials";
+import { SCOPES } from "@/config/scopes";
+import { canRevoke, CONSOLE_PLATFORM, describeCredentialsFailure, isPlatformEnvironment, isPlatformName, listCredentials, MINT_CONSOLE_SCOPES, MINT_PLATFORM_SCOPES, otherActive, PLATFORM_ENVIRONMENTS, STATUS_COLOUR } from "@/src/boss/credentials";
 import type { BossCredential } from "@/src/boss/credentials";
 import { ageLabel } from "@/src/status/format";
 import { currentTenant } from "@/src/tenancy/tenant";
 import { EmptyRow, PageHeader, Panel, StatusChip, buttonPrimary, buttonSecondary } from "@/components/ControlPlane";
 import { Notice, Table, fmt, td } from "@/components/StatusUi";
 import { revokeKey } from "./actions";
+import MintKeyForm from "./MintKeyForm";
 
 export const dynamic = "force-dynamic";
 
@@ -16,9 +18,11 @@ const field = "min-h-9 rounded-md border border-gray-300 bg-white px-3 py-1.5 te
 const danger = "inline-flex min-h-9 items-center rounded-md bg-red-600 px-3.5 py-1.5 text-sm font-medium text-white hover:bg-red-700";
 
 /**
- * BOSS keys: the spoke credentials platforms and tools use to call BOSS, listed from BOSS (metadata only: never a key) and revocable
- * by an admin. Minting stays with the owner: a new key is minted first, the platform is updated, and only then is the old key revoked
- * here. Reads and revokes go through BOSS's operator routes with the console's credentials key and the signed-in person's token.
+ * BOSS keys: the spoke credentials platforms and tools use to call BOSS, listed from BOSS (metadata only: never a key), mintable and
+ * revocable by an admin. An admin can mint a platform key or the console's reports-read key; console operator keys and the tin hub's
+ * key stay the owner's CLI. A key is minted first, the platform is updated, and only then is the old key revoked. Everything goes
+ * through BOSS's operator routes with the console's credentials key and the signed-in person's token. A new key is shown once, in
+ * the browser that asked for it; this page never receives it.
  */
 export default async function KeysPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const op = await requireOperator();
@@ -30,6 +34,8 @@ export default async function KeysPage({ searchParams }: { searchParams: Promise
   const tenant = await currentTenant();
   const isAdmin = op.role === "admin";
   const now = new Date();
+  const purposeOf = (scope: string) => SCOPES.find((s) => s.scope === scope)?.purpose ?? "";
+  const withPurpose = (list: readonly string[]) => list.map((scope) => ({ scope, purpose: purposeOf(scope) }));
 
   const result = await listCredentials(await operatorBearer(), filtered ? { platform, environment } : {});
   const keys = result.status === "ok" ? result.credentials : [];
@@ -37,7 +43,7 @@ export default async function KeysPage({ searchParams }: { searchParams: Promise
 
   return (
     <div>
-      <PageHeader tenant={tenant.slug} title="Keys" crumb="Keys" crumbParent="BOSS" subtitle="The keys platforms and tools use to call BOSS. BOSS never shows a key: this lists who holds one, what it may do and when it was last used. An admin can revoke a key; minting a new one is an owner step.">
+      <PageHeader tenant={tenant.slug} title="Keys" crumb="Keys" crumbParent="BOSS" subtitle="The keys platforms and tools use to call BOSS. BOSS never shows a key: this lists who holds one, what it may do and when it was last used. An admin can mint a platform key or revoke a key; console operator keys and the tin hub's key are the owner's CLI.">
         <Link href="/boss/reports" className={buttonPrimary}>Reports</Link>
       </PageHeader>
 
@@ -97,9 +103,20 @@ export default async function KeysPage({ searchParams }: { searchParams: Promise
         </Panel>
       )}
 
+      <Panel title="Mint a key" className="mt-8">
+        {isAdmin ? (
+          <MintKeyForm environments={PLATFORM_ENVIRONMENTS} platformScopes={withPurpose(MINT_PLATFORM_SCOPES)} consoleScopes={withPurpose(MINT_CONSOLE_SCOPES)} consolePlatform={CONSOLE_PLATFORM} />
+        ) : (
+          <p className="text-sm text-gray-500 dark:text-gray-400">Admins mint keys.</p>
+        )}
+        <p className="mt-3 text-xs text-gray-500 dark:text-gray-400">
+          Platform keys and the console&apos;s reports-read key can be minted here. Console operator keys and the tin hub&apos;s key stay the owner&apos;s CLI (<span className={mono}>scripts/mint-spoke-credential.ts</span> in tin-boss-api), and so does the console&apos;s own credentials key. BOSS stores only a hash, so a key cannot be shown again; the new key appears in the list above the next time the page loads.
+        </p>
+      </Panel>
+
       <Panel title="Replacing a lost or leaked key" className="mt-8">
         <ol className="list-decimal space-y-1 pl-5 text-sm text-gray-700 dark:text-gray-300">
-          <li>The owner mints the replacement and puts it in the platform&apos;s secret store (<span className={mono}>scripts/mint-spoke-credential.ts</span> in tin-boss-api).</li>
+          <li>Mint the replacement above, for the same platform and environment, and put it in the platform&apos;s secret store straight away.</li>
           <li>The platform is updated and redeployed, and its next report arrives.</li>
           <li>Revoke the old key here. BOSS refuses to revoke an identity&apos;s only active key unless you confirm it.</li>
         </ol>

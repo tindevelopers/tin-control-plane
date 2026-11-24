@@ -33,7 +33,7 @@ function Tile({ label, value, sub, tone }: { label: string; value: string | numb
 
 /**
  * Consumers and keys: one identity per platform environment, its keys and their scopes, as the collector last saw them in
- * api-credentials. Metadata only: the table has no secret column. Minting and rotation stay the owner's CLI; this page records.
+ * api-credentials. Metadata only: the table has no secret column. This page only records; platform keys and the console's reports-read key are minted from BOSS › Keys, and console operator keys and tin keys stay the owner's CLI.
  */
 export default async function KeysPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   await requireOperator();
@@ -105,7 +105,7 @@ export default async function KeysPage({ searchParams }: { searchParams: Promise
             </tr>
           ))}
         </Table>
-        <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">A platform key is any non-empty subset of the three platform scopes. The console reader is exactly <span className={mono}>boss.reports.read</span>, never mixed with operator scopes, because that scope returns every platform&apos;s reports. The tin hub is exactly <span className={mono}>boss.session.issue</span>. Minting and rotation are the owner&apos;s CLI (<span className={mono}>scripts/mint-spoke-credential.ts</span> in tin-boss-api); they are not done from here.</p>
+        <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">A platform key is any non-empty subset of the three platform scopes. The console reader is exactly <span className={mono}>boss.reports.read</span>, never mixed with operator scopes, because that scope returns every platform&apos;s reports. The tin hub is exactly <span className={mono}>boss.session.issue</span>. Platform keys and the console&apos;s reports-read key can be minted from BOSS › Keys; console operator keys and tin keys stay the owner&apos;s CLI (<span className={mono}>scripts/mint-spoke-credential.ts</span> in tin-boss-api). Nothing is minted from this page.</p>
       </Panel>
 
       <Panel title="Where this grows" className="mt-8">
