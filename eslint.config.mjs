@@ -1,4 +1,4 @@
-// ESLint flat config — TIN Command Center (task W1-07: the repository had no linter).
+// ESLint flat config — TIN Control Plane (task W1-07: the repository had no linter).
 //
 // Rules derive from recognised presets, matching the estate's other repositories:
 //   - @eslint/js recommended

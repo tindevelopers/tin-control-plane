@@ -7,7 +7,7 @@ import { consoleNavigation } from "@/config/navigation";
 import { accentVars, filterNavigation, type TenantSettings } from "@/src/tenancy/settings-shared";
 import React from "react";
 
-const DEFAULT_NAME = "TIN Control";
+const DEFAULT_NAME = "TIN Control Plane";
 
 /**
  * Thin instantiation of the shared shell, same shape as konnect-caas-base/apps/ops/components/ConsoleLayout.tsx. The tenant's

@@ -1,4 +1,4 @@
-# CODEOWNERS — review routing for tindevelopers/tin-command-centre (task W1-04).
+# CODEOWNERS — review routing for tindevelopers/tin-control-plane (task W1-04).
 # Single owner: no second human has write access to this repository (owner decision, 2026-10-29).
 # GitHub does not ask a PR author to review their own PR, so a second owner is still required for the CI,
 # test and migration lines once W1-30's rulesets enforce code-owner review; see the PR body for the owner action.
