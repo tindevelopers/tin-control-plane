@@ -150,7 +150,7 @@ export function toCatalogEntities(registry: Registry, groups: Group[]): CatalogE
     });
   }
   if (usedGroups.has(UNOWNED) && !groupSlugs.has(UNOWNED)) {
-    entities.push({ apiVersion: "backstage.io/v1alpha1", kind: "Group", metadata: { name: UNOWNED, title: "Unowned (fix in the console)" }, spec: { type: "team", children: [] } });
+    entities.push({ apiVersion: "backstage.io/v1alpha1", kind: "Group", metadata: { name: UNOWNED, title: "Unowned (fix in the Control Plane)" }, spec: { type: "team", children: [] } });
   }
   for (const name of [...users].sort()) {
     entities.push({ apiVersion: "backstage.io/v1alpha1", kind: "User", metadata: { name }, spec: { memberOf: [] } });

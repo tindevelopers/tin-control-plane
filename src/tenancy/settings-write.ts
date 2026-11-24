@@ -29,7 +29,7 @@ export function parseSettingsForm(f: Form): SettingsInput {
 
   const chosen = f.getAll("module").map(String);
   const unknown = chosen.filter((m) => !OPTIONAL.includes(m) && !ALWAYS.includes(m));
-  if (unknown.length > 0) throw new ValidationError("That request names a module this console does not have. Reload the page.");
+  if (unknown.length > 0) throw new ValidationError("That request names a module this Control Plane does not have. Reload the page.");
   const picked = OPTIONAL.filter((id) => chosen.includes(id));
   // Every optional module ticked is stored as NULL, so a module added later appears for this tenant without another edit.
   const modules = picked.length === OPTIONAL.length ? null : picked;

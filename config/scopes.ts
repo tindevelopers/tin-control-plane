@@ -10,8 +10,8 @@ export type Holder = "platform" | "console-reader" | "console-operator" | "tin-h
 
 export const HOLDER_LABEL: Record<Holder, string> = {
   platform: "Platform key",
-  "console-reader": "Console reader",
-  "console-operator": "Console operator",
+  "console-reader": "Control Plane reader",
+  "console-operator": "Control Plane operator",
   "tin-hub": "The tin hub",
 };
 
@@ -21,7 +21,7 @@ export const SCOPES: readonly ScopeRule[] = [
   { scope: "boss.reports.write", route: "POST /v1/reports", purpose: "A platform reports what it runs", holders: ["platform"] },
   { scope: "boss.pins.read", route: "GET /v1/pin-proposals/latest", purpose: "A platform pulls its latest pin proposal", holders: ["platform"] },
   { scope: "boss.knowledge.releases.read", route: "GET /v1/knowledge/releases", purpose: "A platform pulls signed knowledge releases", holders: ["platform"] },
-  { scope: "boss.reports.read", route: "GET /v1/reports", purpose: "Read every platform's reports (cross-platform: console only, alone)", holders: ["console-reader"] },
+  { scope: "boss.reports.read", route: "GET /v1/reports", purpose: "Read every platform's reports (cross-platform: Control Plane only, alone)", holders: ["console-reader"] },
   { scope: "boss.pins.write", route: "POST /v1/pin-proposals", purpose: "Propose pins to a platform", holders: ["console-operator"] },
   { scope: "boss.releases.write", route: "POST /v1/knowledge/releases", purpose: "Publish a signed knowledge release", holders: ["console-operator"] },
   { scope: "boss.knowledge.write", route: "POST /v1/knowledge/queue/…", purpose: "Accept or reject the review queue", holders: ["console-operator"] },

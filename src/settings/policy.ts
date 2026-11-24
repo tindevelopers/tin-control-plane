@@ -52,7 +52,7 @@ export const POLICIES: readonly PolicyRecord[] = [
   {
     id: "autonomy", title: "Autonomy classes", kind: "decision-record",
     governs: "What each agent task type may do (A0 observe, A1 propose, A2 merge on evidence, A3 act with rollback), spend caps, promotion and demotion, the never-above-A1 list.",
-    recordedIn: "tin-programme policy/autonomy.yaml (harness template), mirrored in the console as a decision record",
+    recordedIn: "tin-programme policy/autonomy.yaml (harness template), mirrored in the Control Plane as a decision record",
     approvedBy: "owner", changedBy: "a PR to the policy file", overridableBy: "nothing: a class moves only when the owner edits the policy", page: "/automation/autonomy",
     values: () => [{ label: "today", value: "every type is A0 or A1; nothing merges itself until required checks are enforced (OD-1)" }],
   },
@@ -65,14 +65,14 @@ export const POLICIES: readonly PolicyRecord[] = [
   },
   {
     id: "scopes", title: "BOSS scopes and who may hold them", kind: "decision-record",
-    governs: "Which spoke scopes a platform key, the console's reader key, an operator key and the tin hub may carry, and that they are never mixed.",
-    recordedIn: "tin-boss-api scripts/mint-spoke-credential.ts; mirrored in the console as config/scopes.ts with the Consumers and keys page",
-    approvedBy: "owner", changedBy: "a PR to tin-boss-api", overridableBy: "nothing: platform keys and the console's reports-read key can be minted from the Keys page; console operator keys and tin keys stay the owner's CLI", page: "/boss/keys",
+    governs: "Which spoke scopes a platform key, the Control Plane's reader key, an operator key and the tin hub may carry, and that they are never mixed.",
+    recordedIn: "tin-boss-api scripts/mint-spoke-credential.ts; mirrored in the Control Plane as config/scopes.ts with the Consumers and keys page",
+    approvedBy: "owner", changedBy: "a PR to tin-boss-api", overridableBy: "nothing: platform keys and the Control Plane's reports-read key can be minted from the Keys page; Control Plane operator keys and tin keys stay the owner's CLI", page: "/boss/keys",
     values: () => [
       { label: "platform keys", value: "any non-empty subset of boss.reports.write, boss.pins.read, boss.knowledge.releases.read" },
-      { label: "console reader", value: "exactly boss.reports.read" },
-      { label: "console operator", value: "a subset of boss.pins.write, boss.releases.write, boss.knowledge.write; never mixed with the reader scope" },
-      { label: "console credentials", value: "boss.credentials.write, as a key of its own" },
+      { label: "Control Plane reader", value: "exactly boss.reports.read" },
+      { label: "Control Plane operator", value: "a subset of boss.pins.write, boss.releases.write, boss.knowledge.write; never mixed with the reader scope" },
+      { label: "Control Plane credentials", value: "boss.credentials.write, as a key of its own" },
       { label: "tin hub", value: "exactly boss.session.issue" },
     ],
   },
@@ -128,7 +128,7 @@ export const POLICIES: readonly PolicyRecord[] = [
   },
   {
     id: "boss-readers", title: "BOSS readers and proposals", kind: "code",
-    governs: "How the console talks to BOSS: bounded, fail-closed reads with fixed error text, and proposals a person sends.",
+    governs: "How the Control Plane talks to BOSS: bounded, fail-closed reads with fixed error text, and proposals a person sends.",
     recordedIn: "src/boss/reports.ts, src/boss/propose.ts, src/boss/drafts.ts, src/boss/credentials.ts",
     approvedBy: "owner", changedBy: "a PR to this repository", overridableBy: "nothing", page: "/boss/proposals",
     values: () => [

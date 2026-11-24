@@ -46,7 +46,7 @@ export type PlatformSignals =
 export function describePlatformUnavailable(r: Exclude<PlatformSignals, { status: "ok" }>): string {
   if (r.status === "unconfigured") return "Platform pull requests are not read: set AGENT_GITHUB_TOKEN (read access to pull requests and checks on the platform repositories).";
   const why: Record<PlatformReason, string> = {
-    unauthorized: "GitHub refused the console's token for a platform repository.",
+    unauthorized: "GitHub refused the Control Plane's token for a platform repository.",
     http_error: "GitHub answered with an error.",
     malformed: "GitHub returned an unexpected response.",
     timeout: "GitHub did not answer in time.",

@@ -25,7 +25,7 @@ export async function currentOperator(): Promise<Operator | null> {
 
 export async function requireOperator(): Promise<Operator> {
   const op = await currentOperator();
-  if (!op) redirect("/signin?error=" + encodeURIComponent("This account is not authorised for the console."));
+  if (!op) redirect("/signin?error=" + encodeURIComponent("This account is not authorised for the TIN Control Plane."));
   return op;
 }
 
