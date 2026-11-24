@@ -137,8 +137,8 @@ export function describeCall(r: Exclude<Call, { status: "ok" }>, route: { notSer
     case "failed": {
       const why: Record<CallReason, string> = {
         misconfigured: "BOSS_API_URL is not a valid https URL.",
-        unauthorized: "BOSS refused the console's operator key or your token.",
-        forbidden: `BOSS refused: you are not on its operator list, or the console's operator key lacks ${route.scope}.`,
+        unauthorized: "BOSS refused the Control Plane's operator key or your token.",
+        forbidden: `BOSS refused: you are not on its operator list, or the Control Plane's operator key lacks ${route.scope}.`,
         not_served: route.notServed,
         not_found: route.notFound,
         conflict: route.conflict,

@@ -33,7 +33,7 @@ export function describeProposeFailure(r: Exclude<ProposeResult, { status: "ok" 
     case "failed": {
       const why: Record<typeof r.reason, string> = {
         misconfigured: "BOSS_API_URL is not a valid https URL.",
-        unauthorized: "BOSS refused the console's operator key or your token.",
+        unauthorized: "BOSS refused the Control Plane's operator key or your token.",
         forbidden: "BOSS refused: you are not on its operator list, or the key lacks boss.pins.write.",
         rejected: "BOSS rejected the proposal's shape.",
         http_error: "BOSS answered with an error.",

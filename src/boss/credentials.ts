@@ -89,8 +89,8 @@ export function describeCredentialsFailure(r: Exclude<CredentialsResult, { statu
         misconfigured: "BOSS_API_URL is not a valid https URL.",
         timeout: "BOSS did not answer in time.",
         network: "BOSS could not be reached.",
-        unauthorized: "BOSS refused the console's key or your token.",
-        forbidden: "BOSS refused: you are not on its operator list, or the console's key lacks boss.credentials.write, or BOSS has no credential admin login yet.",
+        unauthorized: "BOSS refused the Control Plane's key or your token.",
+        forbidden: "BOSS refused: you are not on its operator list, or the Control Plane's key lacks boss.credentials.write, or BOSS has no credential admin login yet.",
         http_error: "BOSS answered with an error.",
         malformed: "BOSS returned an unexpected response.",
         too_large: "BOSS returned a response that is too large.",
@@ -111,12 +111,12 @@ export function describeRevokeFailure(r: Exclude<RevokeResult, { status: "ok" }>
     case "failed": {
       const why: Record<RevokeFailure, string> = {
         misconfigured: "BOSS_API_URL is not a valid https URL.",
-        unauthorized: "BOSS refused the console's key or your token.",
-        forbidden: "BOSS refused: you are not on its operator list, or the console's key lacks boss.credentials.write.",
+        unauthorized: "BOSS refused the Control Plane's key or your token.",
+        forbidden: "BOSS refused: you are not on its operator list, or the Control Plane's key lacks boss.credentials.write.",
         not_found: "BOSS has no such key for that identity. Reload the page.",
         not_active: "That key is no longer active. Reload the page.",
         last_active: "That is the only active key for this identity. Mint a replacement first, or confirm that you mean to cut the platform off.",
-        own_credential: "That is the key this console uses to talk to BOSS. It cannot revoke itself.",
+        own_credential: "That is the key this Control Plane uses to talk to BOSS. It cannot revoke itself.",
         rejected: "BOSS rejected the request's shape.",
         http_error: "BOSS answered with an error.",
         malformed: "BOSS returned an unexpected response.",
@@ -329,7 +329,7 @@ export function validateMint(input: MintInput): string | null {
   if (!Array.isArray(scopes) || scopes.length === 0 || !scopes.every((s) => typeof s === "string")) return "choose at least one scope.";
   if (new Set(scopes).size !== scopes.length) return "a scope was chosen twice.";
   if (platform === CONSOLE_PLATFORM) {
-    if (scopes.length !== 1 || scopes[0] !== MINT_CONSOLE_SCOPES[0]) return "the console's key from here carries exactly boss.reports.read; operator keys are minted by the owner.";
+    if (scopes.length !== 1 || scopes[0] !== MINT_CONSOLE_SCOPES[0]) return "the Control Plane's key from here carries exactly boss.reports.read; operator keys are minted by the owner.";
     return null;
   }
   const outside = scopes.find((s) => !MINT_PLATFORM_SCOPES.includes(s));
@@ -348,8 +348,8 @@ export function describeMintFailure(r: Exclude<MintResult, { status: "ok" }>): s
     case "failed": {
       const why: Record<MintFailure, string> = {
         misconfigured: "BOSS_API_URL is not a valid https URL.",
-        unauthorized: "BOSS refused the console's key or your token.",
-        forbidden: "BOSS refused: you are not on its operator list, or the console's key lacks boss.credentials.write.",
+        unauthorized: "BOSS refused the Control Plane's key or your token.",
+        forbidden: "BOSS refused: you are not on its operator list, or the Control Plane's key lacks boss.credentials.write.",
         not_configured: "minting is not configured on BOSS. The owner enables it there first.",
         rejected: "BOSS did not accept the platform, environment, name or scopes. Check them against the allowed set.",
         unavailable: "BOSS could not reach what it needs to mint a key. Try again shortly.",

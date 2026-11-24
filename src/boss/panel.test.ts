@@ -32,7 +32,7 @@ describe("BossPanel", () => {
 
   it("when BOSS is unavailable it says so in fixed words and shows unknown rows", () => {
     const out = html([row({ state: "unavailable", health: null, components: [], reportedAt: null })], { status: "unavailable", reason: "unauthorized" });
-    expect(out).toContain("BOSS refused the console");
+    expect(out).toContain("BOSS refused the Control Plane");
     expect(out).toContain("unknown");
     expect(out).not.toContain("health ok");
   });

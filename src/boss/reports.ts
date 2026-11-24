@@ -41,7 +41,7 @@ export function describeUnavailable(r: Exclude<ReportsResult, { status: "ok" }>)
     misconfigured: "BOSS_API_URL is not a valid https URL.",
     timeout: "BOSS did not answer in time.",
     network: "BOSS could not be reached.",
-    unauthorized: "BOSS refused the console's key.",
+    unauthorized: "BOSS refused the Control Plane's key.",
     http_error: "BOSS answered with an error.",
     malformed: "BOSS returned an unexpected response.",
     too_large: "BOSS returned a response that is too large.",

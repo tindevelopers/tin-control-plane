@@ -48,7 +48,7 @@ export function buildPinTask(i: PinTaskInput): AgentTask {
     ? `\`${i.path}\` (from the registry). Update the dependency in \`${i.path}/package.json\`, and in any workspace package that app depends on and that declares it too.`
     : "Not recorded in the registry. Find the app for this project by name under `apps/`, then update the dependency in its `package.json` and in any workspace package it depends on that declares it too.";
   const links = i.origin
-    ? [`- Project in the console: ${i.origin}/projects/${i.project}`, `- Drift view: ${i.origin}/drift?q=${encodeURIComponent(i.pkg)}`]
+    ? [`- Project in the Control Plane: ${i.origin}/projects/${i.project}`, `- Drift view: ${i.origin}/drift?q=${encodeURIComponent(i.pkg)}`]
     : [];
   const pkgLinks = i.packageRepo ? [`- Package source: https://github.com/${i.packageRepo} (releases: https://github.com/${i.packageRepo}/releases)`] : [];
   const others = i.alsoBehind.filter((o) => !(o.slug === i.project && o.environment === i.environment));
